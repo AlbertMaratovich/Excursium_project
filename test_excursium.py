@@ -18,7 +18,6 @@ def test_enter_account_correct_data():
     if driver.current_url != "https://excursium.com/Client/Login":
         raise Exception("URL не соответствует ожидаемому")
 
-
     # enter an email to the field
     field_email = driver.find_element("xpath", "//form/div/input[@type='email']")
     field_email.clear()
@@ -60,7 +59,7 @@ def test_users_path_1():
     tabs = driver.window_handles
     driver.switch_to.window(tabs[-1])
 
-    #check the url
+    # check the url
     assert "https://t.me/excursium" in driver.current_url
 
 
@@ -73,15 +72,19 @@ def test_user_report_problem():
 
     report_button = driver.find_element("xpath", "//div/p/a[@href='/About/Contact#from-feedback']")
 
-    # scroll to button and click
+    # scroll to button
     action = ActionChains(driver).scroll_to_element(report_button)
     action.perform()
     time.sleep(1)
+
+    # доскролить пришлось, а то кликалось мимо)
     html = driver.find_element("tag name", "html")
     for i in range(10):
         html.send_keys(Keys.ARROW_DOWN)
     time.sleep(0.3)
 
+    # click on a report button
     action.click(report_button).perform()
 
+    # check the url
     assert driver.current_url == "https://excursium.com/About/Contact#from-feedback"
