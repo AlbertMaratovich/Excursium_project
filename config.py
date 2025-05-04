@@ -1,3 +1,3 @@
 base_url = "https://excursium.com/"
-login = ""
-password = ""
+login = "gimalov.98@mail.ru"
+password = "CorrectPassword666"
