@@ -1,0 +1,7 @@
+base_url = "https://excursium.com/"
+login_url = "https://excursium.com/Client/Login"
+account_url = "https://excursium.com/Account/Startup"
+all_excursion_url = "https://excursium.com/ekskursii-dlya-shkolnikov/list"
+feedback_url = "https://excursium.com/About/Contact#from-feedback"
+login = "gimalov.98@mail.ru"
+password = "CorrectPassword666"
