@@ -3,6 +3,7 @@ This repository contains basic example of usage PageObject pattern with Selenium
 
 
 Files
+
 base/base.py contains parent class for POM.
 
 pages/ contains child classes for each testing web pages.
@@ -13,12 +14,13 @@ tests/conftest.py contains fixture for correct start webdriver with all required
 
 
 How To Run Tests
+
 Install all requirements:
 
 
 pip3 install -r requirements
-Run tests:
 
+Run tests:
 
 python -m pytest
 or use the "run" button in the IDE
