@@ -23,6 +23,3 @@ How To Run Tests
 
     python -m pytest
     or use the "run" button in the IDE
-
-Here is one change
-I added new changes
