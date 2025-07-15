@@ -17,7 +17,6 @@ def driver():
         " (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
     )
     browser = webdriver.Chrome(options=options)
-    # driver.set_window_size(1920, 1080)
     browser.implicitly_wait(10)
     yield browser
     browser.quit()
