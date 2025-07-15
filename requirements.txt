@@ -1,4 +1,2 @@
 selenium
 pytest
-pytest-selenium
-new requirenment
