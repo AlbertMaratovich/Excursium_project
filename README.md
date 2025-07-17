@@ -17,7 +17,7 @@ How To Run Tests
 
   Install all requirements:
 
-    pip3 install -r requirements
+    pip install -r requirements
 
   Run tests:
 
