@@ -3,10 +3,12 @@ from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from selenium.webdriver.support.ui import WebDriverWait
 from config import config
+import pytest
 import time
 
 
 class TestUserCases:
+    @pytest.mark.auth
     def test_enter_account_correct_data(self, driver):
         """Проверка возможности входа в аккаунт с корректными данными"""
         login_page = LoginPage(driver)
@@ -30,6 +32,7 @@ class TestUserCases:
         driver.find_element(*login_page.login_btn).click()
         assert login_page.is_opened(config.account_url), "Не произошел вход в аккаунт"
 
+    @pytest.mark.user_case
     def test_order_excursion(self, driver):
         """Переход с главной страницы к экскурсиям с дальнейшим оформлением одной из них (юзер-сценарий)"""
         excursion_page = ExcursionPage(driver)
@@ -78,6 +81,7 @@ class TestUserCases:
         # assert not success_window.is_displayed(), "Окно успешной отправки заявки отображается после закрытия кнопкой"
         # assert driver.current_url == page_url, "URL не соответствует странице экскурсии"
 
+    @pytest.mark.user_case
     def test_user_report_problem(self, driver):
         """Пользовательский сценарий перехода на вкладку с экскурсиями и на страницу с жалобами"""
         main_page = MainPage(driver)
