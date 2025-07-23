@@ -1,5 +1,6 @@
 from base.base_page import BasePage
 from config import config
+import allure
 
 
 class MainPage(BasePage):
@@ -8,4 +9,5 @@ class MainPage(BasePage):
     report_btn = ("xpath", "//div/p/a[@href='/About/Contact#from-feedback']")
 
     def excursions(self):
-        return self.driver.driver.find_elements("xpath", "//div[@class='col']/div/div")
+        with allure.step("Получаем список экскурсий"):
+            return self.driver.find_elements("xpath", "//div[@class='col']/div/div")

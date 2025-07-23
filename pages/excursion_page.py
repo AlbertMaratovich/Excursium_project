@@ -1,4 +1,5 @@
 from base.base_page import BasePage
+import allure
 
 
 class ExcursionPage(BasePage):
@@ -12,5 +13,6 @@ class ExcursionPage(BasePage):
     good_btn = ("xpath", "//div/button[contains(text(), ' Хорошо ')]")
 
     def check_box(self):
-        check_box = self.driver.find_element("id", "agreeCheck")
-        check_box.click()
+        with allure.step("Установка/снятие чекбокса"):
+            check_box = self.driver.find_element("id", "agreeCheck")
+            check_box.click()
