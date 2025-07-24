@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 import allure
+import time
 
 
 class BasePage:
@@ -32,6 +33,7 @@ class BasePage:
         with allure.step("Скроллим до элемента"):
             self.actions.scroll_to_element(element).perform()
             self.driver.execute_script("window.scrollBy(0, 500);")
+            time.sleep(3)
             # self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
 
     def scroll_down(self):
