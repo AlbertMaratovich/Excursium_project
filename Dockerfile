@@ -23,3 +23,4 @@ COPY . .
 
 # Команда по умолчанию — запуск тестов и генерация отчета
 CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results && allure generate allure-results -o allure-report --clean"]
+# CMD ["sh", "-c", "python -m pytest --alluredir=allure-results && allure generate allure-results -o allure-report --clean"]

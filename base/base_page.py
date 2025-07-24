@@ -31,13 +31,10 @@ class BasePage:
 
     def scroll_to(self, element):
         with allure.step("Скроллим до элемента"):
-            self.actions.scroll_to_element(element).perform()
-            # self.driver.execute_script("window.scrollBy(0, 500);")
+            # self.actions.scroll_to_element(element).perform()
+            self.driver.execute_script("window.scrollTo(0, 3000);")
             time.sleep(3)
-            self.driver.execute_script("""
-                    const rect = arguments[0].getBoundingClientRect();
-                    window.scrollBy(0, rect.top - window.innerHeight / 2);
-                """, element)
+            # self.driver.execute_script("window.scrollBy(0, 500);")
             # self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
             # self.driver.execute_script("""window.scrollTo({top: window.scrollY + 500,});""")
 
