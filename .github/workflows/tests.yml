@@ -4,88 +4,40 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-tests:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout main branch
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Checkout gh-pages branch (for history)
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Set up Docker
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
-        run: docker build -t my-tests .
-
-      - name: Copy history into container (if exists)
-        run: |
-          mkdir -p ./gh-pages/history
-          docker build -t my-tests . \
-            --build-arg COPY_HISTORY=true
-          echo "History copied into build context"
-
-      - name: Run tests in Docker
-        run: |
-          docker run --name test-container my-tests || true
-          docker cp test-container:/app/allure-report ./allure-report
-          docker cp test-container:/app/allure-results ./allure-results
-          docker cp test-container:/app/allure-report/history ./history || echo "No history yet"
-          docker rm test-container
-
-      - name: Upload Allure Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: allure-report
-
-      - name: Upload Allure Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results
-          path: allure-results
-
-      - name: Upload Allure History
-        uses: actions/upload-artifact@v4
+      - name: Download previous history
+        uses: actions/download-artifact@v4
         with:
           name: allure-history
           path: history
 
-  deploy-report:
-    needs: run-tests
-    runs-on: ubuntu-latest
+      - name: Run tests in Docker
+        run: |
+          docker build -t autotests .
+          docker run --rm -v ${{ github.workspace }}:/app autotests
 
-    steps:
-      - name: Checkout main branch
-        uses: actions/checkout@v4
+      - name: Copy history into report
+        run: |
+          mkdir -p allure-report/history
+          cp -r history/* allure-report/history/ || true
 
-      - name: Checkout gh-pages branch
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Download report
-        uses: actions/download-artifact@v4
-        with:
-          name: allure-report
-          path: allure-report
-
-      - name: Download history
-        uses: actions/download-artifact@v4
+      - name: Upload new history
+        uses: actions/upload-artifact@v4
         with:
           name: allure-history
           path: allure-report/history
 
-      - name: Commit and push to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Publish Allure Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: allure-report
-          publish_branch: gh-pages
-          keep_files: true
