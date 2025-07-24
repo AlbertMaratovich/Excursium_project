@@ -21,6 +21,11 @@ COPY . .
 # Устанавливаем переменную среды для xvfb-run
 ENV DISPLAY=:99
 
+# Копируем предыдущую историю прогонов
+RUN mkdir -p allure-report/history
+COPY ./history ./allure-report/history || true
+
 # Команда по умолчанию — запуск тестов и генерация отчета
 CMD xvfb-run python -m pytest --alluredir=allure-results; \
-    allure generate allure-results -o allure-report --clean || echo "Allure report not generated"
+    allure generate allure-results -o allure-report --clean || echo "Allure report not generated"; \
+    cp -r allure-report/history ./history || echo "No history to save"

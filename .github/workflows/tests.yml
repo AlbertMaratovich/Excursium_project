@@ -1,7 +1,7 @@
-name: Run AQA Tests Manually
+name: Run AQA Tests + Publish Allure Report
 
 on:
-  workflow_dispatch:  # запускается вручную через GitHub UI
+  workflow_dispatch:
 
 jobs:
   run-tests:
@@ -22,6 +22,7 @@ jobs:
           docker run --name test-container my-tests || true
           docker cp test-container:/app/allure-report ./allure-report
           docker cp test-container:/app/allure-results ./allure-results
+          docker cp test-container:/app/history ./history || echo "No history yet"
           docker rm test-container
 
       - name: Upload Allure Report
@@ -35,3 +36,29 @@ jobs:
         with:
           name: allure-results
           path: allure-results
+
+      - name: Upload Allure History
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-history
+          path: history
+
+  deploy-report:
+    needs: run-tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: ./allure-report
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
