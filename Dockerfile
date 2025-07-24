@@ -19,7 +19,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Устанавливаем переменную среды для xvfb-run
-ENV DISPLAY=:99
+# ENV DISPLAY=:99
 
 # Команда по умолчанию — запуск тестов и генерация отчета
 CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results && allure generate allure-results -o allure-report --clean"]
