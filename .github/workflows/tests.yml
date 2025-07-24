@@ -1,4 +1,4 @@
-name: UI tests
+name: Run Tests and Deploy Allure Report
 
 on:
   workflow_dispatch:
@@ -10,34 +10,41 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Чтобы история коммитов подтянулась
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Download previous history
-        uses: actions/download-artifact@v4
-        with:
-          name: allure-history
-          path: history
+      - name: Build Docker image
+        run: docker build -t aqa-tests .
 
       - name: Run tests in Docker
         run: |
-          docker build -t autotests .
-          docker run --rm -v ${{ github.workspace }}:/app autotests
+          docker run --rm -v ${{ github.workspace }}/allure-results:/app/allure-results \
+            aqa-tests
 
-      - name: Copy history into report
+      - name: Generate Allure report from results
+        run: |
+          sudo apt-get update && sudo apt-get install -y default-jre
+          wget https://github.com/allure-framework/allure2/releases/download/2.25.0/allure-2.25.0.tgz
+          tar -xzf allure-2.25.0.tgz
+          ./allure-2.25.0/bin/allure generate allure-results -o allure-report --clean
+
+      - name: Download previous report history
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Copy history to new report
         run: |
           mkdir -p allure-report/history
-          cp -r history/* allure-report/history/ || true
+          cp -r gh-pages/history/* allure-report/history/ || true
 
-      - name: Upload new history
-        uses: actions/upload-artifact@v4
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          name: allure-history
-          path: allure-report/history
-
-      - name: Publish Allure Report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: allure-report
+          branch: gh-pages
+          folder: allure-report
+          clean: true
