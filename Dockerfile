@@ -22,4 +22,5 @@ COPY . .
 ENV DISPLAY=:99
 
 # Команда по умолчанию — запуск тестов и генерация отчета
-CMD xvfb-run python -m pytest --alluredir=allure-results && allure generate allure-results -o allure-report --clean
+CMD xvfb-run python -m pytest --alluredir=allure-results; \
+    allure generate allure-results -o allure-report --clean || echo "Allure report not generated"
