@@ -35,7 +35,7 @@ class BasePage:
             # time.sleep(3)
             # ok self.driver.execute_script("""window.scrollTo({top: window.scrollY + 500,});""")
             self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
-            time.sleep(1)
+            time.sleep(0.5)
             self.wait.until(EC.element_to_be_clickable(element))
 
     def scroll_down(self):
