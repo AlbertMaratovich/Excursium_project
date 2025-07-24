@@ -22,10 +22,9 @@ COPY . .
 ENV DISPLAY=:99
 
 # Копируем предыдущую историю прогонов
-RUN mkdir -p allure-report/history
-COPY ./history ./allure-report/history || true
+ARG INCLUDE_HISTORY=false
+COPY history/ allure-results/history/
+RUN if [ "$INCLUDE_HISTORY" = "true" ] && [ -d allure-results/history ]; then echo "History copied."; else echo "No history to copy."; fi
 
 # Команда по умолчанию — запуск тестов и генерация отчета
-CMD xvfb-run python -m pytest --alluredir=allure-results; \
-    allure generate allure-results -o allure-report --clean || echo "Allure report not generated"; \
-    cp -r allure-report/history ./history || echo "No history to save"
+CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results && allure generate allure-results -o allure-report --clean"]

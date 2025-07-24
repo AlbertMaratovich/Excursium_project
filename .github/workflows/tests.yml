@@ -1,4 +1,4 @@
-name: Run AQA Tests + Publish Allure Report
+name: UI tests
 
 on:
   workflow_dispatch:
@@ -8,8 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout main branch
         uses: actions/checkout@v4
+
+      - name: Checkout gh-pages branch (for history)
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
@@ -17,12 +23,19 @@ jobs:
       - name: Build Docker image
         run: docker build -t my-tests .
 
+      - name: Copy history into container (if exists)
+        run: |
+          mkdir -p ./gh-pages/history
+          docker build -t my-tests . \
+            --build-arg COPY_HISTORY=true
+          echo "History copied into build context"
+
       - name: Run tests in Docker
         run: |
           docker run --name test-container my-tests || true
           docker cp test-container:/app/allure-report ./allure-report
           docker cp test-container:/app/allure-results ./allure-results
-          docker cp test-container:/app/history ./history || echo "No history yet"
+          docker cp test-container:/app/allure-report/history ./history || echo "No history yet"
           docker rm test-container
 
       - name: Upload Allure Report
@@ -48,17 +61,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout main branch
         uses: actions/checkout@v4
 
-      - name: Download report artifact
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Download report
         uses: actions/download-artifact@v4
         with:
           name: allure-report
-          path: ./allure-report
+          path: allure-report
 
-      - name: Deploy to GitHub Pages
+      - name: Download history
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-history
+          path: allure-report/history
+
+      - name: Commit and push to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./allure-report
+          publish_dir: allure-report
+          publish_branch: gh-pages
+          keep_files: true
