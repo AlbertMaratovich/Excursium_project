@@ -104,6 +104,9 @@ class TestUserCases:
         with allure.step("Переходим на страницу с экскурсиями"):
             driver.find_element(*main_page.all_excursion_btn).click()
 
+        result = driver.execute_script("return 222 + 222;")
+        print(result)  # должно быть 444
+
         with allure.step("Находим и скролим до кнопки отправки жалобы"):
             report_btn = driver.find_element(*main_page.report_btn)
             main_page.scroll_to(report_btn)
