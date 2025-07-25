@@ -16,15 +16,15 @@ RUN apk update && apk add --no-cache \
     unzip
 
 # Устанавливаем Allure CLI (можно менять версию через ARG)
-ARG ALLURE_VERSION=2.25.0
-RUN wget -q "https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.tgz" \
-    && tar -xzf "allure-${ALLURE_VERSION}.tgz" -C /opt \
-    && ln -s "/opt/allure-${ALLURE_VERSION}/bin/allure" /usr/bin/allure
+# ARG ALLURE_VERSION=2.25.0
+# RUN wget -q "https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.tgz" \
+    # && tar -xzf "allure-${ALLURE_VERSION}.tgz" -C /opt \
+    # && ln -s "/opt/allure-${ALLURE_VERSION}/bin/allure" /usr/bin/allure
 
 # Установка Allure CLI
-#RUN wget https://github.com/allure-framework/allure2/releases/download/2.25.0/allure-2.25.0.tgz \
-    #&& tar -xzf allure-2.25.0.tgz -C /opt/ \
-    #&& ln -s /opt/allure-2.25.0/bin/allure /usr/bin/allure
+RUN wget https://github.com/allure-framework/allure2/releases/download/2.25.0/allure-2.25.0.tgz \
+    && tar -xzf allure-2.25.0.tgz -C /opt/ \
+    && ln -s /opt/allure-2.25.0/bin/allure /usr/bin/allure
 
 # Установка зависимостей Python
 WORKDIR /app
