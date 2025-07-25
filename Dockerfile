@@ -1,4 +1,5 @@
-FROM python:3.13.0-slim
+# FROM python:3.13.0-slim
+FROM python:3.13.5
 
 # Установка системных пакетов (для браузера и allure)
 RUN apt-get update && apt-get install -y \
