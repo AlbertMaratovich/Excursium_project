@@ -10,6 +10,8 @@ def driver():
     options.add_argument("--headless") # need to use after debugging
     options.add_argument("--no-sandbox")
     options.add_argument("window-size=1920,1080")
+    options.add_argument("--disable-dev-shm-usage")# this
+    options.add_argument("--disable-gpu") # this
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option("useAutomationExtension", False)
