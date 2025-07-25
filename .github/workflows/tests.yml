@@ -11,11 +11,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Checkout (copy) gh-pages repository to GitHub runner
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: ./.github/gh-pages
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with: { distribution: 'adopt', java-version: '11' }
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -27,11 +25,14 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}/allure-results:/app/allure-results \
             aqa-tests || echo "Tests failed, continuing anyway"
-
-      - name: Copy history into allure-results
-        run: |
-          sudo mkdir -p allure-results/history
-          sudo cp -r ./.github/gh-pages/history/* allure-results/history/
+      
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+      - run: |
+          mkdir -p allure-results/history
+          cp -r gh-pages/history/* allure-results/history/ || true
 
       - name: Generate Allure report from results
         run: |
@@ -40,16 +41,10 @@ jobs:
           tar -xzf allure-2.25.0.tgz
           ./allure-2.25.0/bin/allure generate allure-results -o allure-report --clean
 
-      - name: Debug generated report
-        run: ls -lR allure-report
-
       - name: Update Allure history
         run: |
-          sudo mkdir -p allure-report/history
-          sudo cp -R allure-results/history/* allure-report/history/
-
-      - name: Debug updated report/history
-        run: ls -lR allure-report/history
+          sudo mkdir -p gh-pages/history
+          sudo cp -r allure-report/history/* gh-pages/history/
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
