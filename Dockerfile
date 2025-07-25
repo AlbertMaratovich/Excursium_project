@@ -6,8 +6,6 @@ RUN apk update && apk add --no-cache \
     chromium \
     chromium-chromedriver \
     openjdk11-jre \
-    xvfb \
-    xvfb-run \
     bash \
     dbus \
     fontconfig \
@@ -18,6 +16,8 @@ RUN apk update && apk add --no-cache \
     wget \
     curl \
     unzip
+# xvfb \
+# xvfb-run \
 
 # Устанавливаем Allure CLI (можно менять версию через ARG)
 ARG ALLURE_VERSION=2.25.0
@@ -39,9 +39,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Устанавливаем переменную среды для xvfb-run
-ENV CHROME_BIN=/usr/bin/chromium-browser \
-    DISPLAY=:99
+#ENV CHROME_BIN=/usr/bin/chromium-browser \
+    #DISPLAY=:99
 
 # Команда по умолчанию — запуск тестов и генерация директории результатов
 # (далее сюда будет подкинуты результаты предыдущих тестов с гита и затем сгенерирован отчет)
-CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results"]
+CMD ["sh", "-c", "python -m pytest --alluredir=allure-results"]
