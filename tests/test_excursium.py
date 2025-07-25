@@ -4,6 +4,7 @@ from pages.main_page import MainPage
 from config import config
 import pytest
 import allure
+import time
 
 
 @allure.feature("Пользовательские сценарии")
@@ -71,6 +72,7 @@ class TestUserCases:
 
         with allure.step("Заполняем поля корректными данными"):
             driver.find_element(*excursion_page.date_field).click()
+            time.sleep(2)
             driver.find_elements("xpath", "//div/span[@class='flatpickr-day ']")[0].click()
             name_field = driver.find_element(*excursion_page.name_field)
             name_field.send_keys("Это Автотест")
