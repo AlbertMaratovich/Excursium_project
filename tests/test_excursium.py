@@ -71,6 +71,7 @@ class TestUserCases:
             main_page.wait.until(lambda x: order_window.is_displayed())
 
         with allure.step("Заполняем поля корректными данными"):
+            time.sleep(2)
             driver.find_element(*excursion_page.date_field).click()
             time.sleep(2)
             driver.find_elements("xpath", "//div/span[@class='flatpickr-day ']")[0].click()
