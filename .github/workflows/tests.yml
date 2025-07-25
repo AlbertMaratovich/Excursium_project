@@ -31,8 +31,8 @@ jobs:
           ref: gh-pages
           path: gh-pages
       - run: |
-          mkdir -p allure-results/history
-          cp -r gh-pages/history/* allure-results/history/ || true
+          sudo mkdir -p allure-results/history
+          sudo cp -r gh-pages/history/* allure-results/history/ || true
 
       - name: Generate Allure report from results
         run: |
