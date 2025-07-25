@@ -3,8 +3,10 @@ FROM python:3.13.5
 
 # Установка системных пакетов (для браузера и allure)
 RUN apt-get update && apt-get install -y \
-    unzip curl wget gnupg default-jre xvfb chromium chromium-driver \
+    unzip curl wget gnupg default-jre xvfb chromium chromium-chromedriver \
     && apt-get clean
+
+
 
 # Установка Allure CLI
 RUN wget https://github.com/allure-framework/allure2/releases/download/2.25.0/allure-2.25.0.tgz \
