@@ -2,7 +2,7 @@ FROM python:3.13-slim
 
 # Установка зависимостей
 RUN apt-get update && apt-get install -y \
-    openjdk-11-jre \
+    openjdk-17-jre \
     wget \
     unzip \
     curl \
