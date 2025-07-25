@@ -35,8 +35,8 @@ jobs:
 
       - name: Copy history into allure-results
         run: |
-          mkdir -p allure-results/history
-          cp -r gh-pages/history/* allure-results/history/ || true
+          sudo mkdir -p allure-results/history
+          sudo cp -r ./.github/gh-pages/history/* allure-results/history/
 
       - name: Generate Allure report from results
         run: |
@@ -44,6 +44,10 @@ jobs:
           wget https://github.com/allure-framework/allure2/releases/download/2.25.0/allure-2.25.0.tgz
           tar -xzf allure-2.25.0.tgz
           ./allure-2.25.0/bin/allure generate allure-results -o allure-report --clean --verbose
+
+      - name: Update Allure history
+        run: |
+          sudo cp -R allure-report/history/* ./.github/gh-pages/history/
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
