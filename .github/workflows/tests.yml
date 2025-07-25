@@ -31,12 +31,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: gh-pages
-          path: gh-pages
+          path: ./.github/gh-pages
 
       - name: Copy history into allure-results
         run: |
           sudo mkdir -p allure-results/history
-          sudo cp -r gh-pages/history/* allure-results/history/ || true
+          sudo cp -r ./.github/gh-pages/history/* allure-results/history/
 
       - name: Generate Allure report from results
         run: |
