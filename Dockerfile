@@ -3,8 +3,14 @@ FROM python:3.13.5
 
 # Установка системных пакетов (для браузера и allure)
 RUN apt-get update && apt-get install -y \
-    unzip curl wget gnupg default-jre xvfb chromedriver \
+    unzip curl wget gnupg default-jre xvfb \
     && apt-get clean
+
+RUN CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3 | cut -d '.' -f 1-3) && \
+    wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver_linux64.zip && \
+    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
+    chmod +x /usr/local/bin/chromedriver && \
+    rm /tmp/chromedriver.zip
 
 # Установка браузера хром
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
