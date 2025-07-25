@@ -39,7 +39,7 @@ jobs:
 
       - name: Generate Allure report from results
         run: |
-          ./allure-2.25.0/bin/allure generate allure-results --clean -o allure-report
+          allure generate allure-results --clean -o allure-report
 
       - name: Update Allure history
         run: |
