@@ -46,7 +46,7 @@ jobs:
       - name: Update Allure history
         run: |
           sudo mkdir -p allure-report/history
-          sudo cp -R allure-report/history/* allure-report/history/
+          sudo cp -R allure-results/history/* allure-report/history/
 
       - name: Debug updated report/history
         run: ls -lR allure-report/history
