@@ -1,11 +1,19 @@
-FROM selenium/standalone-chrome:latest
+FROM python:3.13-alpine
+# update apk repo
+RUN echo "https://dl-4.alpinelinux.org/alpine/v3.10/main" >> /etc/apk/repositories && \
+    echo "https://dl-4.alpinelinux.org/alpine/v3.10/community" >> /etc/apk/repositories
 
-USER root
+# install chromedriver
+RUN apk update
+RUN apk add --no-cache chromium chromium-chromedriver tzdata
 
-# Установка Python 3 (достаточно 3.11/3.12 — не 3.13)
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    ln -s /usr/bin/python3 /usr/bin/python
+# Get all the prereqs
+RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
+RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.30-r0/glibc-2.30-r0.apk
+RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.30-r0/glibc-bin-2.30-r0.apk
+
+RUN apk update && \
+    apk add openjdk11-jre curl tar
 
 # Установка Allure CLI
 ARG ALLURE_VERSION=2.25.0
