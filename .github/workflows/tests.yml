@@ -17,10 +17,6 @@ jobs:
           ref: gh-pages
           path: ./.github/gh-pages
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with: { distribution: 'adopt', java-version: '11' }
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 

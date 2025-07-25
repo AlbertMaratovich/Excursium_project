@@ -21,7 +21,6 @@ COPY . .
 # Устанавливаем переменную среды для xvfb-run
 ENV DISPLAY=:99
 
-# Команда по умолчанию — запуск тестов и генерация отчета
+# Команда по умолчанию — запуск тестов и генерация директории результатов
+# (далее сюда будет подкинуты результаты предыдущих тестов с гита и затем сгенерирован отчет)
 CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results"]
-# CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results && allure generate allure-results -o allure-report --clean"]
-# CMD ["sh", "-c", "python -m pytest --alluredir=allure-results && allure generate allure-results -o allure-report --clean"]
