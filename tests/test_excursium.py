@@ -74,6 +74,7 @@ class TestUserCases:
             #time.sleep(2)
             date_field = driver.find_element(*excursion_page.date_field)
             main_page.wait.until(lambda x: main_page.is_clickable(date_field))
+            date_field.click()
             month_window = driver.find_element("xpath", "//div[@class='flatpickr-innerContainer']")
             main_page.wait.until(lambda x: month_window.is_displayed())
             first_day = driver.find_elements("xpath", "//div/span[@class='flatpickr-day ']")[0]
