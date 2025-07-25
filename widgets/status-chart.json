@@ -1,1 +1,1 @@
-[]
+[{"uid":"7903df6f5c6ddff1","name":"Оформление экскурсии","time":{"start":1753443469420,"stop":1753443476338,"duration":6918},"status":"passed","severity":"normal"},{"uid":"cf6bfc1c92f8fc30","name":"Авторизация в аккаунт с корректными данными","time":{"start":1753443464299,"stop":1753443468930,"duration":4631},"status":"passed","severity":"critical"}]
