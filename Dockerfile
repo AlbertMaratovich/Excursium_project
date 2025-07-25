@@ -3,10 +3,13 @@ FROM python:3.13.5
 
 # Установка системных пакетов (для браузера и allure)
 RUN apt-get update && apt-get install -y \
-    unzip curl wget gnupg default-jre xvfb chromium chromium-chromedriver \
+    unzip curl wget gnupg default-jre xvfb chromedriver \
     && apt-get clean
 
-
+# Установка браузера хром
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    apt install -y ./google-chrome-stable_current_amd64.deb && \
+    rm google-chrome-stable_current_amd64.deb
 
 # Установка Allure CLI
 RUN wget https://github.com/allure-framework/allure2/releases/download/2.25.0/allure-2.25.0.tgz \
