@@ -72,6 +72,7 @@ class TestUserCases:
 
         with allure.step("Заполняем поля корректными данными"):
             driver.find_element(*excursion_page.date_field).click()
+            time.sleep(2)
             driver.find_elements("xpath", "//div/span[@class='flatpickr-day ']")[0].click()
             name_field = driver.find_element(*excursion_page.name_field)
             name_field.send_keys("Это Автотест")
@@ -108,6 +109,7 @@ class TestUserCases:
         with allure.step("Находим и скролим до кнопки отправки жалобы"):
             report_btn = driver.find_element(*main_page.report_btn)
             main_page.scroll_to(report_btn)
+            time.sleep(2)
             report_btn.click()
 
         assert driver.current_url == config.feedback_url, "URL не соответствует странице отправки фидбека"
