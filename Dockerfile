@@ -3,25 +3,26 @@ FROM python:3.13.5
 
 # Установка системных пакетов (для браузера и allure)
 RUN apt-get update && apt-get install -y \
-    unzip curl wget gnupg default-jre xvfb google-chrome-stable \
+    unzip curl wget gnupg default-jre xvfb \
     && apt-get clean
 
 # Установка браузера хром
-# RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    # apt install -y ./google-chrome-stable_current_amd64.deb && \
-    # rm google-chrome-stable_current_amd64.deb
-
-RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$(google-chrome-stable --version | awk '{print $3}' | cut -d '.' -f 1-2).0/chromedriver_linux64.zip \
-    && unzip /tmp/chromedriver.zip -d /usr/local/bin \
-    && chmod +x /usr/local/bin/chromedriver \
-    && rm /tmp/chromedriver.zip
-
-ENV PATH="${PATH}:/usr/local/bin"
-
-RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
-    wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub \
+      | gpg --dearmor -o /usr/share/keyrings/google.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google.gpg] \
+           http://dl.google.com/linux/chrome/deb/ stable main" \
+      > /etc/apt/sources.list.d/google.list && \
     apt-get update && \
-    apt-get install -y google-chrome-stable
+    apt-get install -y google-chrome-stable && \
+    rm -rf /var/lib/apt/lists/*
+
+# Динамически получаем версию установленного Chrome и скачиваем matching Chromedriver
+RUN CHROME_VER="$(google-chrome --version | grep -Po '\d+\.\d+\.\d+')" && \
+    DRIVER_VER="$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VER})" && \
+    wget -q "https://chromedriver.storage.googleapis.com/${DRIVER_VER}/chromedriver_linux64.zip" && \
+    unzip chromedriver_linux64.zip -d /usr/local/bin && \
+    chmod +x /usr/local/bin/chromedriver && \
+    rm chromedriver_linux64.zip
 
 RUN google-chrome-stable --version
 
