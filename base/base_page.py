@@ -32,7 +32,7 @@ class BasePage:
     def scroll_to(self, element):
         with allure.step("Скроллим до элемента"):
             self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
-            # time.sleep(0.5)
+            time.sleep(0.5)
             self.wait.until(EC.element_to_be_clickable(element))
 
     def scroll_down(self):
