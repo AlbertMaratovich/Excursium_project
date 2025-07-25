@@ -40,10 +40,16 @@ jobs:
           tar -xzf allure-2.25.0.tgz
           ./allure-2.25.0/bin/allure generate allure-results -o allure-report --clean
 
+      - name: Debug generated report
+        run: ls -lR allure-report
+
       - name: Update Allure history
         run: |
           sudo mkdir -p allure-report/history
-          sudo cp -R allure-report/history/* ./.github/gh-pages/history/
+          sudo cp -R allure-report/history/* allure-report/history/
+
+      - name: Debug updated report/history
+        run: ls -lR allure-report/history
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
