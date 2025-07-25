@@ -10,7 +10,7 @@ class BasePage:
     def __init__(self, driver):
         self.driver = driver
         self.actions = ActionChains(driver)
-        self.wait = WebDriverWait(driver, 10)
+        self.wait = WebDriverWait(driver, 10, poll_frequency=0.5)
 
     def is_opened(self, page: str):
         with allure.step("Проверяем открыта ли страница"):
