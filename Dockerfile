@@ -1,19 +1,30 @@
-FROM python:3.13-alpine
-# update apk repo
-RUN echo "https://dl-4.alpinelinux.org/alpine/v3.10/main" >> /etc/apk/repositories && \
-    echo "https://dl-4.alpinelinux.org/alpine/v3.10/community" >> /etc/apk/repositories
+FROM python:3.13-slim
 
-# install chromedriver
-RUN apk update
-RUN apk add --no-cache chromium chromium-chromedriver tzdata
-
-# Get all the prereqs
-RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
-RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.30-r0/glibc-2.30-r0.apk
-RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.30-r0/glibc-bin-2.30-r0.apk
-
-RUN apk update && \
-    apk add openjdk11-jre curl tar
+# Установка зависимостей
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip \
+    curl \
+    gnupg \
+    ca-certificates \
+    fonts-liberation \
+    libnss3 \
+    libxss1 \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libgtk-3-0 \
+    libx11-xcb1 \
+    libxcb-dri3-0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libgbm1 \
+    libxshmfence1 \
+    libvulkan1 \
+    chromium \
+    chromium-driver \
+    xvfb \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Установка Allure CLI
 ARG ALLURE_VERSION=2.25.0
@@ -26,8 +37,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копируем твой код
+# Копируем код
 COPY . .
 
+# Установка переменных окружения
+ENV DISPLAY=:99
+
 # Запуск тестов
-CMD ["sh", "-c", "python -m pytest --alluredir=allure-results"]
+CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results"]
