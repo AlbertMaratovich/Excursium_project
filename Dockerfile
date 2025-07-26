@@ -22,10 +22,9 @@ RUN apt-get update && apt-get install -y \
     libgbm1 \
     libxshmfence1 \
     libvulkan1 \
-    chromium \
     xvfb \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-# chromium-driver \
+# chromium-driver \ chromium \
 
 # Установка Allure CLI
 ARG ALLURE_VERSION=2.25.0
