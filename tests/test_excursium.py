@@ -71,7 +71,6 @@ class TestUserCases:
             main_page.wait.until(lambda x: order_window.is_displayed())
 
         with (allure.step("Заполняем поля корректными данными")):
-            #time.sleep(2)
             date_field = driver.find_element(*excursion_page.date_field)
             main_page.wait.until(lambda x: main_page.is_clickable(date_field))
             date_field.click()

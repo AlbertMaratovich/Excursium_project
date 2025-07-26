@@ -23,9 +23,9 @@ RUN apt-get update && apt-get install -y \
     libxshmfence1 \
     libvulkan1 \
     chromium \
-    chromium-driver \
     xvfb \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+# chromium-driver \
 
 # Установка Allure CLI
 ARG ALLURE_VERSION=2.25.0
@@ -44,5 +44,5 @@ COPY . .
 # Установка переменных окружения
 ENV DISPLAY=:99
 
-# Запуск тестов
+# Запуск тестов с сохранением результатов
 CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results"]
