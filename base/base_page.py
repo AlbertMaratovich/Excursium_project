@@ -2,7 +2,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 import allure
-import time
 
 
 class BasePage:
@@ -19,7 +18,7 @@ class BasePage:
 
     def is_clickable(self, element):
         with allure.step("Проверяем кликабелен ли элемент"):
-            if element.is_displayed() and element.is_enabled() and EC.visibility_of(element):
+            if element.is_displayed() and element.is_enabled() and self.is_in_viewport(element):
                 return True
             else:
                 return False

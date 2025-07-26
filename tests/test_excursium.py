@@ -2,10 +2,8 @@ from pages.excursion_page import ExcursionPage
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from config import config
-from selenium.webdriver.support import expected_conditions as EC
 import pytest
 import allure
-import time
 
 
 @allure.feature("Пользовательские сценарии")
