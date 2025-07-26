@@ -44,4 +44,4 @@ COPY . .
 ENV DISPLAY=:99
 
 # Запуск тестов с сохранением результатов
-CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results"]
+CMD ["sh", "-c", "export SELENIUM_MANAGER_LOG_LEVEL=DEBUG xvfb-run python -m pytest --alluredir=allure-results"]
