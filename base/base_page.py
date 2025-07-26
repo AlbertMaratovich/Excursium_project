@@ -42,3 +42,14 @@ class BasePage:
     def scroll_top(self):
         with allure.step("Скроллим вверх страницы"):
             self.driver.execute_script("window.scrollTo(0, 0)")
+
+    def is_element_in_viewport(self, element):
+        return self.driver.execute_script("""
+            const rect = arguments[0].getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        """, element)
