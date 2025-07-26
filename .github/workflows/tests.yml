@@ -45,6 +45,13 @@ jobs:
         run: |
           sudo cp -R allure-report/history/* ./.github/gh-pages/history/
 
+      - name: Verify Chromium & Chromedriver
+        run: |
+          docker run --rm \
+            --entrypoint sh \
+            my-app:test \
+            -c "which chromium && chromium --version; which chromedriver && chromedriver --version"
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
