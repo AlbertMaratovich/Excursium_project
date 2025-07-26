@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Sat Jul 26 07:51:50 UTC 2025","Sat Jul 26 07:51:58 UTC 2025","7685","tests","test_excursium","TestUserCases","","","Переход на страницу с жалобами","Пользовательский сценарий перехода на вкладку с экскурсиями и на страницу с жалобами"
+"broken","Sat Jul 26 07:51:31 UTC 2025","Sat Jul 26 07:51:50 UTC 2025","18588","tests","test_excursium","TestUserCases","","","Оформление экскурсии","Переход с главной страницы к экскурсиям с дальнейшим оформлением одной из них (юзер-сценарий)"
+"passed","Sat Jul 26 07:51:23 UTC 2025","Sat Jul 26 07:51:31 UTC 2025","7841","tests","test_excursium","TestUserCases","","","Авторизация в аккаунт с корректными данными","Проверка возможности входа в аккаунт с корректными данными"
