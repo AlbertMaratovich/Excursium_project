@@ -42,6 +42,7 @@ COPY . .
 
 # Установка переменных окружения
 ENV DISPLAY=:99
+ENV SELENIUM_MANAGER_LOG_LEVEL=DEBUG
 
 # Запуск тестов с сохранением результатов
-CMD ["sh", "-c", "export SELENIUM_MANAGER_LOG_LEVEL=DEBUG xvfb-run python -m pytest --alluredir=allure-results"]
+CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results"]
