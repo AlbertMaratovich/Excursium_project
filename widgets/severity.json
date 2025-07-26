@@ -1,1 +1,1 @@
-[{"uid":"22cc6bd55b66cf55","name":"Переход на страницу с жалобами","time":{"start":1753514139474,"stop":1753514146218,"duration":6744},"status":"broken","severity":"normal"},{"uid":"e906f0177f666aa7","name":"Авторизация в аккаунт с корректными данными","time":{"start":1753514112169,"stop":1753514117311,"duration":5142},"status":"passed","severity":"critical"},{"uid":"49b4a9737273518e","name":"Оформление экскурсии","time":{"start":1753514117687,"stop":1753514138706,"duration":21019},"status":"broken","severity":"critical"}]
+[]
