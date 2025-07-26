@@ -115,8 +115,6 @@ class TestUserCases:
         with allure.step("Находим и скролим до кнопки отправки жалобы"):
             report_btn = driver.find_element(*main_page.report_btn)
             main_page.scroll_to(report_btn)
-            main_page.wait.until(lambda x: main_page.is_element_in_viewport(report_btn))
-            # main_page.wait.until(lambda x: main_page.is_clickable(report_btn))
             report_btn.click()
 
         assert driver.current_url == config.feedback_url, "URL не соответствует странице отправки фидбека"
