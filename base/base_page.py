@@ -19,7 +19,7 @@ class BasePage:
 
     def is_clickable(self, element):
         with allure.step("Проверяем кликабелен ли элемент"):
-            if element.is_displayed() and element.is_enabled():
+            if element.is_displayed() and element.is_enabled() and EC.visibility_of(element):
                 return True
             else:
                 return False
@@ -32,8 +32,8 @@ class BasePage:
     def scroll_to(self, element):
         with allure.step("Скроллим до элемента"):
             self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
-            time.sleep(0.5)
-            self.wait.until(EC.element_to_be_clickable(element))
+            #time.sleep(0.5)
+            self.wait.until(EC.visibility_of(element))
 
     def scroll_down(self):
         with allure.step("Скроллим вниз страницы"):

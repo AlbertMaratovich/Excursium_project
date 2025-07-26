@@ -24,7 +24,6 @@ RUN apt-get update && apt-get install -y \
     libvulkan1 \
     xvfb \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-# chromium-driver \ chromium \
 
 # Установка Allure CLI
 ARG ALLURE_VERSION=2.25.0
@@ -42,7 +41,6 @@ COPY . .
 
 # Установка переменных окружения
 ENV DISPLAY=:99
-ENV SELENIUM_MANAGER_LOG_LEVEL=DEBUG
 
 # Запуск тестов с сохранением результатов
 CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results"]
