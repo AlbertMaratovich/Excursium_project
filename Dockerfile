@@ -43,4 +43,4 @@ COPY . .
 ENV DISPLAY=:99
 
 # Запуск тестов с сохранением результатов
-CMD ["sh", "-c", "xvfb-run python -m pytest --alluredir=allure-results"]
+CMD ["xvfb-run", "python", "-m", "pytest", "--alluredir=allure-results"]
