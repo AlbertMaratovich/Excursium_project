@@ -20,11 +20,12 @@ class BasePage:
         with allure.step("Проверяем кликабелен ли элемент"):
             if element.is_displayed() and element.is_enabled() and self.is_in_viewport(element):
                 overlapping_element = self.driver.execute_script("""
-                        const rect = arguments[0].getBoundingClientRect();
-                        const x = rect.left + rect.width / 2;
-                        const y = rect.top + rect.height / 2;
-                        return document.elementFromPoint(x, y);
-                    """, element)
+                    const rect = arguments[0].getClientRects()[0];
+                    if (!rect) return null;  // элемент может быть невидим
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    return document.elementFromPoint(x, y);
+                """, element)
                 if overlapping_element != element:
                     return False
                 return True
