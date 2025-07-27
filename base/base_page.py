@@ -19,6 +19,14 @@ class BasePage:
     def is_clickable(self, element):
         with allure.step("Проверяем кликабелен ли элемент"):
             if element.is_displayed() and element.is_enabled() and self.is_in_viewport(element):
+                overlapping_element = self.driver.execute_script("""
+                        const rect = arguments[0].getBoundingClientRect();
+                        const x = rect.left + rect.width / 2;
+                        const y = rect.top + rect.height / 2;
+                        return document.elementFromPoint(x, y);
+                    """, element)
+                if overlapping_element != element:
+                    return False
                 return True
             else:
                 return False
@@ -30,7 +38,6 @@ class BasePage:
 
     def scroll_to(self, element):
         with allure.step("Скроллим до элемента"):
-            # self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
             self.driver.execute_script("arguments[0].scrollIntoView({block: 'center', behavior: 'instant'});", element)
             # self.wait.until(lambda x: self.is_in_viewport(element))
 

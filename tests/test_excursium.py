@@ -67,7 +67,7 @@ class TestUserCases:
 
         with allure.step("Ждем и проверяем открытие окна"):
             order_window = driver.find_element(*excursion_page.order_window)
-            main_page.wait.until(lambda x: main_page.is_clickable(order_window))
+            main_page.wait.until(lambda x: main_page.is_in_viewport(order_window))
 
         with (allure.step("Заполняем поля корректными данными")):
             date_field = driver.find_element(*excursion_page.date_field)
