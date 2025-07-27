@@ -17,20 +17,21 @@ class BasePage:
             return self.wait.until(EC.url_to_be(page))
 
     def is_clickable(self, element):
-        with allure.step("Проверяем кликабелен ли элемент"):
-            if element.is_displayed() and element.is_enabled() and self.is_in_viewport(element):
-                overlapping_element = self.driver.execute_script("""
-                    const rect = arguments[0].getClientRects()[0];
-                    if (!rect) return null;  // элемент может быть невидим
-                    const x = rect.left + rect.width / 2;
-                    const y = rect.top + rect.height / 2;
-                    return document.elementFromPoint(x, y);
-                """, element)
-                if overlapping_element != element:
-                    return False
+        with allure.step("Проверяем кликабельность веб элемента"):
+            overlapping_element = self.driver.execute_script("""
+                const rect = arguments[0].getClientRects()[0];
+                if (!rect) return null;  // элемент может быть невидим
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                return document.elementFromPoint(x, y);
+            """, element)
+            if element.is_enabled() and self.is_visible(element) and overlapping_element == element:
                 return True
             else:
                 return False
+
+    def is_visible(self, element):
+        return element.is_displayed() and self.is_in_viewport(element)
 
     def move_last_handle(self):
         with allure.step("Переходим на открытую вкладку"):
