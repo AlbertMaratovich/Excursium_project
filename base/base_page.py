@@ -12,11 +12,13 @@ class BasePage:
         self.wait = WebDriverWait(driver, 10, poll_frequency=0.5)
 
     def is_opened(self, page: str):
+        """Проверяет, что страница открыта"""
         with allure.step("Проверяем открыта ли страница"):
             page = page
             return self.wait.until(EC.url_to_be(page))
 
     def is_clickable(self, element):
+        """Проверяет кликабельность элемента (перекрытие, доступность, отображение на странице)"""
         with allure.step("Проверяем кликабельность веб элемента"):
             overlapping_element = self.driver.execute_script("""
                 const rect = arguments[0].getClientRects()[0];
@@ -31,27 +33,32 @@ class BasePage:
                 return False
 
     def is_visible(self, element):
+        """Проверяет видим ли элемент на странице"""
         return element.is_displayed() and self.is_in_viewport(element)
 
     def move_last_handle(self):
+        """Переход на последнюю открытую вкладку"""
         with allure.step("Переходим на открытую вкладку"):
             tabs = self.driver.window_handles
             self.driver.switch_to.window(tabs[-1])
 
     def scroll_to(self, element):
+        """Мгновенный скролл до элемента с его отображением в середине страницы"""
         with allure.step("Скроллим до элемента"):
             self.driver.execute_script("arguments[0].scrollIntoView({block: 'center', behavior: 'instant'});", element)
-            # self.wait.until(lambda x: self.is_in_viewport(element))
 
     def scroll_down(self):
+        """Скролл в самый низ страницы"""
         with allure.step("Скроллим вниз страницы"):
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
 
     def scroll_top(self):
+        """Скролл в самый верх страницы"""
         with allure.step("Скроллим вверх страницы"):
             self.driver.execute_script("window.scrollTo(0, 0)")
 
     def is_in_viewport(self, element):
+        """Проверка реального отображения элемента в границах экрана"""
         return self.driver.execute_script("""
             const rect = arguments[0].getBoundingClientRect();
             return (
