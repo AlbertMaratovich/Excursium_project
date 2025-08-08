@@ -7,6 +7,10 @@ jobs:
   tests:
     runs-on: ubuntu-latest
 
+    env:
+      LOGIN: ${{ secrets.LOGIN }}
+      PASSWORD: ${{ secrets.PASSWORD }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,7 +29,11 @@ jobs:
 
       - name: Run tests in Docker
         run: |
-          docker run --rm -v ${{ github.workspace }}/allure-results:/app/allure-results aqa-tests
+          docker run --rm \
+            -v ${{ github.workspace }}/allure-results:/app/allure-results \
+            -e LOGIN=${{ secrets.LOGIN }} \
+            -e PASSWORD=${{ secrets.PASSWORD }} \
+            aqa-tests
         continue-on-error: true
       
       - name: Copy history from gh-pages to allure-results

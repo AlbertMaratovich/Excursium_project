@@ -25,12 +25,12 @@ class TestUserCases:
         with allure.step("Вводим имейл"):
             field_email = driver.find_element(*login_page.field_email)
             field_email.clear()
-            field_email.send_keys(config.login)
+            field_email.send_keys(config.LOGIN)
 
         with allure.step("Вводим пароль"):
             password_field = driver.find_element(*login_page.password_field)
             password_field.clear()
-            password_field.send_keys(config.password)
+            password_field.send_keys(config.PASSWORD)
 
         with allure.step("Кликаем на кнопку логина в аккаунт"):
             driver.find_element(*login_page.login_btn).click()
