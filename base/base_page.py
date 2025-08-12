@@ -1,4 +1,5 @@
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 import allure
@@ -11,13 +12,15 @@ class BasePage:
         self.actions = ActionChains(driver)
         self.wait = WebDriverWait(driver, 10, poll_frequency=0.5)
 
-    def is_opened(self, page: str):
+    def is_opened(self, page: str) -> bool:
         """Проверяет, что страница открыта"""
         with allure.step("Проверяем открыта ли страница"):
-            page = page
-            return self.wait.until(EC.url_to_be(page))
+            try:
+                return self.wait.until(EC.url_to_be(page))
+            except TimeoutException:
+                return False
 
-    def is_clickable(self, element):
+    def is_clickable(self, element) -> bool:
         """Проверяет кликабельность элемента (перекрытие, доступность, отображение на странице)"""
         with allure.step("Проверяем кликабельность веб элемента"):
             overlapping_element = self.driver.execute_script("""
@@ -32,32 +35,32 @@ class BasePage:
             else:
                 return False
 
-    def is_visible(self, element):
+    def is_visible(self, element) -> bool:
         """Проверяет видим ли элемент на странице"""
         return element.is_displayed() and self.is_in_viewport(element)
 
-    def move_last_handle(self):
+    def move_last_handle(self) -> None:
         """Переход на последнюю открытую вкладку"""
         with allure.step("Переходим на открытую вкладку"):
             tabs = self.driver.window_handles
             self.driver.switch_to.window(tabs[-1])
 
-    def scroll_to(self, element):
+    def scroll_to(self, element) -> None:
         """Мгновенный скролл до элемента с его отображением в середине страницы"""
         with allure.step("Скроллим до элемента"):
             self.driver.execute_script("arguments[0].scrollIntoView({block: 'center', behavior: 'instant'});", element)
 
-    def scroll_down(self):
+    def scroll_down(self) -> None:
         """Скролл в самый низ страницы"""
         with allure.step("Скроллим вниз страницы"):
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
 
-    def scroll_top(self):
+    def scroll_top(self) -> None:
         """Скролл в самый верх страницы"""
         with allure.step("Скроллим вверх страницы"):
             self.driver.execute_script("window.scrollTo(0, 0)")
 
-    def is_in_viewport(self, element):
+    def is_in_viewport(self, element) -> bool:
         """Проверка реального отображения элемента в границах экрана"""
         return self.driver.execute_script("""
             const rect = arguments[0].getBoundingClientRect();
