@@ -3,6 +3,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 import allure
+import time
 
 
 class BasePage:
@@ -71,3 +72,9 @@ class BasePage:
                 rect.right <= (window.innerWidth || document.documentElement.clientWidth)
             );
         """, element)
+
+    def is_stable(self, element, timeout=0.5):
+        rect1 = element.rect
+        time.sleep(timeout)
+        rect2 = element.rect
+        return rect1 == rect2
