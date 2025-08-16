@@ -73,7 +73,7 @@ class TestUserCases:
 
         with (allure.step("Заполняем поля корректными данными")):
             date_field = driver.find_element(*excursion_page.date_field)
-            # main_page.wait.until(lambda x: main_page.is_clickable(date_field))
+            main_page.wait.until(lambda x: main_page.is_clickable(date_field))
             # time.sleep(1)
             date_field.click()
             main_page.wait.until(lambda x: "active" in date_field.get_attribute("class"))
