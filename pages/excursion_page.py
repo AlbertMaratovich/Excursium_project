@@ -11,6 +11,7 @@ class ExcursionPage(BasePage):
     send_order_btn = ("xpath", "//div/button[@aria-label='Отправить заявку']")
     success_window = ("id", "bookingSuccess")
     good_btn = ("xpath", "//div/button[contains(text(), ' Хорошо ')]")
+    size_25_34 = ("xpath", "//label[contains(text(), ' 25–34 ')]")
 
     def check_box(self):
         with allure.step("Установка/снятие чекбокса"):

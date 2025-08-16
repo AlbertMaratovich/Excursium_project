@@ -4,7 +4,6 @@ from pages.main_page import MainPage
 from config import config
 import pytest
 import allure
-import time
 
 
 @allure.feature("Пользовательские сценарии")
@@ -68,14 +67,13 @@ class TestUserCases:
 
         with allure.step("Ждем и проверяем открытие окна"):
             order_window = driver.find_element(*excursion_page.order_window)
-            main_page.wait.until(lambda x: "display: block;" in order_window.get_attribute("style"))
             main_page.wait.until(lambda x: main_page.is_visible(order_window))
 
         with (allure.step("Заполняем поля корректными данными")):
+            btn_size_group = driver.find_elements(*excursion_page.size_25_34)[1]
+            btn_size_group.click()
             date_field = driver.find_element(*excursion_page.date_field)
             main_page.wait.until(lambda x: main_page.is_clickable(date_field))
-            driver.find_elements("xpath", "//label[contains(text(), ' 25–34 ')]")[1].click()
-            # time.sleep(1)
             date_field.click()
             main_page.wait.until(lambda x: "active" in date_field.get_attribute("class"))
             first_day = driver.find_elements("xpath", "//div/span[@class='flatpickr-day ']")[0]
