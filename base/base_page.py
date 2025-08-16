@@ -74,7 +74,8 @@ class BasePage:
         """, element)
 
     def is_stable(self, element, timeout=0.5):
-        rect1 = element.rect
-        time.sleep(timeout)
-        rect2 = element.rect
-        return rect1 == rect2
+        with allure.step("Проверяем стабильность элемента"):
+            rect1 = element.rect
+            time.sleep(timeout)
+            rect2 = element.rect
+            return rect1 == rect2

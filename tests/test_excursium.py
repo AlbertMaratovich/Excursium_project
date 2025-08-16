@@ -74,7 +74,6 @@ class TestUserCases:
             btn_size_group = driver.find_elements(*excursion_page.size_25_34)[1]
             btn_size_group.click()
             date_field = driver.find_element(*excursion_page.date_field)
-            main_page.wait.until(lambda x: main_page.is_clickable(date_field))
             main_page.wait.until(lambda x: main_page.is_stable(date_field))
             date_field.click()
             main_page.wait.until(lambda x: "active" in date_field.get_attribute("class"))
